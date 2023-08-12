@@ -1,0 +1,30 @@
+﻿@using Sandbox;
+@using Sandbox.UI;
+
+@namespace MyGame
+@inherits RootPanel
+@attribute [StyleSheet]
+
+<root>
+	<div>
+		Hello
+	</div>
+</root>
+
+@code
+{
+
+	[Event.Client.BuildInput]
+	public void ProcessInput()
+	{
+		if (Input.Pressed("Main"))
+		{
+			Open();
+		}
+	}
+
+	public void Open()
+	{
+	}
+
+}

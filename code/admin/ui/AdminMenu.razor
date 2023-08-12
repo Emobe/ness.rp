@@ -1,0 +1,59 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using System;
+@using System.Collections;
+@using System.Collections.Generic;
+
+@namespace MyGame
+@inherits RootPanel
+@attribute [StyleSheet]
+<root class="admin-wrap">
+	<div class="admin-modal">
+		<div class="player-list">
+			<ul>
+				@foreach (var client in Clients)
+				{
+					<li 
+						onclick=@(() => onSelectClient(client)) 
+						class="@(selected == client ? "Selected" : "")"
+						>
+						@client.Name
+					</li>
+				}
+			</ul>
+		</div>
+		<div class="actions">
+			<button onclick=@(() => commitAction())>Punch</button>
+		</div>
+	</div>
+</root>
+
+@code
+{
+	//public List<string, string> Players;
+	IReadOnlyCollection<IClient> Clients => Game.Clients;
+	IClient selected;
+
+	enum AdminAction
+	{
+		Slap,
+		Kick,
+		Ban,
+		Teleport
+	};
+
+	public AdminMenu()
+	{
+
+	}
+
+	void onSelectClient(IClient client) => selected = client;//Log.Info(client.Id);
+
+	void commitAction()
+	{
+		Log.Info( "Action" );
+
+		Admin.Teleport(selected.Id);
+		//selected.Pawn.Position = new Vector3(1, 1);
+	}
+}

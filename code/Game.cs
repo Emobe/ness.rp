@@ -25,12 +25,12 @@ public partial class MyGame : Sandbox.GameManager
 	/// </summary>
 	public MyGame()
 	{
+		Hud _hud ;
 		if ( Game.IsClient )
 		{
-			adminMenu = new AdminMenu();
-			Game.RootPanel = new Hud();
+			//adminMenu = new AdminMenu();
+			_hud = new Hud();
 		}
-			adminInstance = new Admin();
 		//if(PrefabLibrary.TrySpawn<Entity>("God.prefab", out var e) )
 		//{
 			//e.Position = Game.LocalClient.Position;

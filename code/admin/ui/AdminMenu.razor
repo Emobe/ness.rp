@@ -5,18 +5,15 @@
 @using System.Collections.Generic;
 
 @namespace MyGame
-@inherits RootPanel
 @attribute [StyleSheet]
-<root class="admin-wrap">
+<root class="admin-wrap @(isOpen ? "open" : "")">
 	<div class="admin-modal">
 		<div class="player-list">
 			<ul>
 				@foreach (var client in Clients)
 				{
-					<li 
-						onclick=@(() => onSelectClient(client)) 
-						class="@(selected == client ? "Selected" : "")"
-						>
+					<li onclick=@(() => onSelectClient(client))
+						class="@(selected == client ? "Selected" : "")">
 						@client.Name
 					</li>
 				}
@@ -27,33 +24,39 @@
 		</div>
 	</div>
 </root>
+}
 
 @code
 {
-	//public List<string, string> Players;
 	IReadOnlyCollection<IClient> Clients => Game.Clients;
 	IClient selected;
 
-	enum AdminAction
-	{
-		Slap,
-		Kick,
-		Ban,
-		Teleport
-	};
+	public bool isOpen = false;
+	public Panel Ad  { get;set; }
 
-	public AdminMenu()
+	void Toggle()
 	{
-
+		isOpen = !isOpen;
 	}
 
-	void onSelectClient(IClient client) => selected = client;//Log.Info(client.Id);
+	[GameEvent.Client.BuildInput]
+	void ProcessInput()
+	{
+		if (Input.Pressed("Main"))
+		{
+			Toggle();
+		}
+	}
+
+	void onSelectClient(IClient client) => selected = client;
 
 	void commitAction()
 	{
-		Log.Info( "Action" );
-
 		Admin.Teleport(selected.Id);
-		//selected.Pawn.Position = new Vector3(1, 1);
+	}
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine(isOpen, Clients);
 	}
 }

@@ -8,12 +8,8 @@
 <root>
     <ChatBox/>
     <VoiceList/>
+    <AdminMenu />
 
-    <div class="header">
-        <!--<label>Shooter Game</label>
-        <label class="subtitle">@name</label>
-        <label class="subtitle">@career</label>-->
-    </div>
 </root>
 
 @code
@@ -23,6 +19,7 @@
     public Pawn pawn { get; set; }
     public Hud()
     {
+        Game.RootPanel = this;
         pawn = (Pawn)Game.LocalPawn;
         name = Game.UserName;
         //career = pawn.CurrentCareer.ToString();

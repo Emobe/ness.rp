@@ -1,12 +1,42 @@
-﻿@using Sandbox;
+﻿@using System;
+@using Sandbox;
 @using Sandbox.UI;
 
 @namespace MyGame
 @attribute [StyleSheet]
 
-<root>
+<root class="career-wrap @(isOpen ? "open" : "")">
+	<div class="career-modal">
+		<button onclick=@(() => onCareerSelected("Yute"))>Yute</button>
+		<button onclick=@(() => onCareerSelected("Big Ting"))>Big Ting</button>
+		<button onclick=@(() => onCareerSelected("Tug"))>Tug</button>
+	</div>
 </root>
 
 @code
 {
+	bool isOpen = false;
+
+	[GameEvent.Client.BuildInput]
+	void ProcessInput()
+	{
+		if (Input.Pressed("Menu"))
+		{
+			Toggle();
+		}
+	}
+	void Toggle()
+	{
+		isOpen = !isOpen;
+	}
+
+	void onCareerSelected(string career)
+	{
+		Log.Info("Career selected " + career);
+	}
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine(isOpen);
+	}
 }

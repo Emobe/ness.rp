@@ -18,8 +18,7 @@ namespace MyGame;
 public partial class MyGame : Sandbox.GameManager
 {
 
-	Admin adminInstance;
-	AdminMenu adminMenu;
+	CareerManager cm = new CareerManager();
 	/// <summary>
 	/// Called when the game is created (on both the server and client)
 	/// </summary>
@@ -36,6 +35,7 @@ public partial class MyGame : Sandbox.GameManager
 			//e.Position = Game.LocalClient.Position;
 			//Log.Info( "spawned" );
 		//}
+		LoadCareers();
 	}
 
 	/// <summary>
@@ -65,6 +65,11 @@ public partial class MyGame : Sandbox.GameManager
 			pawn.Transform = tx;
 		}
 
+	}
+
+	void LoadCareers()
+	{
+		cm.createCareer( "Thug", 10 );
 	}
 }
 

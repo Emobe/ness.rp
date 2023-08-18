@@ -1,27 +1,57 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Sandbox;
 
-namespace Sandbox
+namespace MyGame
 {
-	internal class CareerManager
+	public partial class CareerManager
 	{
-		List<Career> careers;
+		public static List<Career> Careers { get; private set; }
+
+
 
 		public CareerManager() { 
-			careers = new List<Career>();
+			Careers = new List<Career>();
 		}
 
-		public void AddCareer(Career career )
+
+		public void createCareer( string name, int maxPlayers )
 		{
-			careers.Add( career );
+			int id = Careers.Count;
+			Career career = new Career( id, name, maxPlayers );
+			Careers.Add( career );
+			Log.Info( $"Career {career.Name} added" );
 		}
 
-		public bool AddPlayerToCareer(Career career, Player player) { 
-			if(career.MaxPlayers < career.Players.Count )
+		[ConCmd.Server( "career.addPlayer" )]
+		public static void AddPlayerToCareer( int careerId, long steamId )
+		{
+			Career career = getCareerById( careerId );
+			if ( career.MaxPlayers > career.Players.Count )
 			{
-				career.Players.Add(player);
-				return true;
+				foreach ( var client in Game.Clients )
+				{
+					if ( client.SteamId == steamId )
+					{
+						career.Players.Add( client );
+						Log.Info($"Player added to {Careers[careerId].Name}");
+					}
+				}
 			}
-			return false;
+		}
+
+		[ClientRpc]
+		public static void careerUpdated()
+		{
+		}
+
+		private static Career getCareerById( int careerId )
+		{
+			return Careers[careerId];
 		}
 	}
 }

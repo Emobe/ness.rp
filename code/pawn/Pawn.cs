@@ -68,8 +68,6 @@ public partial class Pawn : AnimatedEntity
 		MobBoss
 	}
 
-	public Career CurrentCareer { get; set; }
-
 
 	/// <summary>
 	/// Called when the entity is first created 
@@ -81,7 +79,6 @@ public partial class Pawn : AnimatedEntity
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
-		CurrentCareer = Career.Citizen;
 	}
 
 	public void SetActiveWeapon( Weapon weapon )

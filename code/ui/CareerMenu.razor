@@ -1,21 +1,27 @@
 ﻿@using System;
 @using Sandbox;
 @using Sandbox.UI;
+@using System.Collections.Generic;
 
 @namespace MyGame
 @attribute [StyleSheet]
 
+@if (Careers.Count < 0) return;
 <root class="career-wrap @(isOpen ? "open" : "")">
 	<div class="career-modal">
-		<button onclick=@(() => onCareerSelected("Yute"))>Yute</button>
-		<button onclick=@(() => onCareerSelected("Big Ting"))>Big Ting</button>
-		<button onclick=@(() => onCareerSelected("Tug"))>Tug</button>
+		@foreach (Career career in Careers)
+		{
+			<button onclick=@(() => onCareerSelected(career.Id, Game.LocalClient.SteamId))>
+				@($"{career.Count}/{career.MaxPlayers} - {career.Name}")
+			</button>
+		}
 	</div>
 </root>
 
 @code
 {
 	bool isOpen = false;
+	List<Career> Careers = CareerManager.Careers;
 
 	[GameEvent.Client.BuildInput]
 	void ProcessInput()
@@ -25,18 +31,20 @@
 			Toggle();
 		}
 	}
+
 	void Toggle()
 	{
 		isOpen = !isOpen;
 	}
 
-	void onCareerSelected(string career)
+	void onCareerSelected(int careerId, long steamId)
 	{
-		Log.Info("Career selected " + career);
+		CareerManager.AddPlayerToCareer(careerId, steamId);
 	}
 
 	protected override int BuildHash()
 	{
-		return HashCode.Combine(isOpen);
+		return HashCode.Combine(isOpen, Careers);
 	}
+
 }

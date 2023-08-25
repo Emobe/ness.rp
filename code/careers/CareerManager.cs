@@ -8,16 +8,14 @@ using Sandbox;
 
 namespace MyGame
 {
-	public partial class CareerManager
+	internal partial class CareerManager
 	{
-		public static List<Career> Careers { get; private set; }
-
+		public List<Career> Careers { get; private set; }
 
 
 		public CareerManager() { 
 			Careers = new List<Career>();
 		}
-
 
 		public void createCareer( string name, int maxPlayers )
 		{
@@ -38,18 +36,12 @@ namespace MyGame
 					if ( client.SteamId == steamId )
 					{
 						career.Players.Add( client );
-						Log.Info($"Player added to {Careers[careerId].Name}");
 					}
 				}
 			}
 		}
 
-		[ClientRpc]
-		public static void careerUpdated()
-		{
-		}
-
-		private static Career getCareerById( int careerId )
+		private Career getCareerById( int careerId )
 		{
 			return Careers[careerId];
 		}

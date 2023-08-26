@@ -10,7 +10,7 @@ namespace MyGame
 {
 	internal partial class CareerManager
 	{
-		public List<Career> Careers { get; private set; }
+		public static List<Career> Careers { get; private set; }
 
 
 		public CareerManager() { 
@@ -35,13 +35,14 @@ namespace MyGame
 				{
 					if ( client.SteamId == steamId )
 					{
-						career.Players.Add( client );
+						Log.Info( $"{client.Name} added to {career.Name}" );
+						career.addPlayer( client );
 					}
 				}
 			}
 		}
 
-		private Career getCareerById( int careerId )
+		private static Career getCareerById( int careerId )
 		{
 			return Careers[careerId];
 		}

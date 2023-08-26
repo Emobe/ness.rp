@@ -6,12 +6,13 @@ using Sandbox;
 
 namespace MyGame
 {
-	internal partial class Career
+	internal partial class Career : Entity
 	{
 
 		public string Name { get; private set; }
 		public List<Weapon> AllowedWeapons { get; private set; }
 		public int MaxPlayers { get; private set; }
+		[Net]
 		public List<IClient> Players { get; private set; }
 
 		public int Id { get; private set; }
@@ -19,7 +20,7 @@ namespace MyGame
 		public Career(int id, string name, int maxPlayers )
 		{
 			Name = name;
-			AllowedWeapons = new List<Weapon>();
+			//AllowedWeapons = new List<Weapon>();
 			MaxPlayers = maxPlayers;
 			this.Players = new List<IClient>();
 		}
@@ -29,6 +30,7 @@ namespace MyGame
 			if ( this.Players.Count < MaxPlayers )
 			{
 				this.Players.Add( client );
+				Log.Info( $"{client.Name} added to {this.Name}" );
 			}
 		}
 

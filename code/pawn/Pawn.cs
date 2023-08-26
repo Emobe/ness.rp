@@ -5,6 +5,8 @@ namespace MyGame;
 
 public partial class Pawn : AnimatedEntity
 {
+	public Career career;
+
 	[Net, Predicted]
 	public Weapon ActiveWeapon { get; set; }
 

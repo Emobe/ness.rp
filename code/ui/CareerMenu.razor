@@ -9,10 +9,10 @@
 @if (Careers.Count < 0) return;
 <root class="career-wrap @(isOpen ? "open" : "")">
 	<div class="career-modal">
-		@foreach (Career career in Careers)
+		@foreach (Career career in CareerManager.Careers)
 		{
 			<button onclick=@(() => onCareerSelected(career.Id, Game.LocalClient.SteamId))>
-				@($"{career.Count}/{career.MaxPlayers} - {career.Name}")
+				@($"{career.Players.Count}/{career.MaxPlayers} - {career.Name}")
 			</button>
 		}
 	</div>
@@ -44,7 +44,7 @@
 
 	protected override int BuildHash()
 	{
-		return HashCode.Combine(isOpen, Careers);
+		return HashCode.Combine(isOpen, CareerManager.Careers);
 	}
 
 }

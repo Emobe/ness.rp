@@ -69,6 +69,7 @@ public partial class MyGame : Sandbox.GameManager
 
 	void LoadCareers()
 	{
+		cm.createCareer( "Citizen", 100 );
 		cm.createCareer( "Thug", 10 );
 	}
 }

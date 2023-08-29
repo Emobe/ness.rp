@@ -25,21 +25,32 @@ namespace MyGame
 			Log.Info( $"Career {career.Name} added" );
 		}
 
-		[ConCmd.Server( "career.addPlayer" )]
-		public static void AddPlayerToCareer( int careerId, long steamId )
+		//[ConCmd.Server( "career.addPlayer" )]
+		public static void AddPlayerToCareer( int careerId, IClient client )
 		{
 			Career career = getCareerById( careerId );
-			if ( career.MaxPlayers > career.Players.Count )
+			// Check player is not already in career
+			if ( career.Players.Contains( client ) )
 			{
-				foreach ( var client in Game.Clients )
-				{
-					if ( client.SteamId == steamId )
-					{
-						Log.Info( $"{client.Name} added to {career.Name}" );
-						career.addPlayer( client );
-					}
-				}
+				Log.Error( "Client is already in career" );
+				return;
 			}
+
+			if ( career.Players.Count < career.MaxCount)
+			{
+				Log.Info( $"{client.Name} added to {career.Name}" );
+				career.addPlayer( client );
+
+				Pawn pawn = (Pawn)client.Pawn;
+				pawn.Career = career;
+				//pawn.SetActiveWeapon( new Crossbow() ) ;
+			}
+
+		}
+
+		public static void removePlayerFromCareer(int careerId, IClient client )
+		{
+
 		}
 
 		private static Career getCareerById( int careerId )

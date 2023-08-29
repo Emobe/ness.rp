@@ -5,7 +5,9 @@ namespace MyGame;
 
 public partial class Pawn : AnimatedEntity
 {
-	public Career career;
+	public Career Career;
+
+	public bool Arrested = false;
 
 	[Net, Predicted]
 	public Weapon ActiveWeapon { get; set; }
@@ -61,14 +63,6 @@ public partial class Pawn : AnimatedEntity
 	[BindComponent] public PawnAnimator Animator { get; }
 
 	public override Ray AimRay => new Ray( EyePosition, EyeRotation.Forward );
-
-	public enum Career {
-		Citizen,
-		Homeless,
-		ArmsDealer,
-		Thief,
-		MobBoss
-	}
 
 
 	/// <summary>

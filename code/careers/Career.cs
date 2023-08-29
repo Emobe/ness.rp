@@ -6,7 +6,7 @@ using Sandbox;
 
 namespace MyGame
 {
-	internal partial class Career : Entity
+	public partial class Career : Entity
 	{
 
 		public string Name { get; private set; }
@@ -19,6 +19,7 @@ namespace MyGame
 
 		public Career(int id, string name, int maxPlayers )
 		{
+			Id = id;
 			Name = name;
 			//AllowedWeapons = new List<Weapon>();
 			MaxPlayers = maxPlayers;

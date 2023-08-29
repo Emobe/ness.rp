@@ -11,7 +11,7 @@
 	<div class="career-modal">
 		@foreach (Career career in CareerManager.Careers)
 		{
-			<button onclick=@(() => onCareerSelected(career.Id, Game.LocalClient.SteamId))>
+			<button onclick=@(() => onCareerSelected(career.Id, Game.LocalClient))>
 				@($"{career.Players.Count}/{career.MaxPlayers} - {career.Name}")
 			</button>
 		}
@@ -37,9 +37,9 @@
 		isOpen = !isOpen;
 	}
 
-	void onCareerSelected(int careerId, long steamId)
+	void onCareerSelected(int careerId, IClient client)
 	{
-		CareerManager.AddPlayerToCareer(careerId, steamId);
+		CareerManager.AddPlayerToCareer(careerId, client);
 	}
 
 	protected override int BuildHash()

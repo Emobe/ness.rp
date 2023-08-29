@@ -1,0 +1,50 @@
+﻿@using System;
+@using Sandbox;
+@using Sandbox.UI;
+@using System.Collections.Generic;
+
+@namespace MyGame
+@attribute [StyleSheet]
+
+@if (Careers.Count < 0) return;
+<root class="career-wrap @(isOpen ? "open" : "")">
+	<div class="career-modal">
+		@foreach (Career career in CareerManager.Careers)
+		{
+			<button onclick=@(() => onCareerSelected(career.Id, Game.LocalClient))>
+				@($"{career.Players.Count}/{career.MaxPlayers} - {career.Name}")
+			</button>
+		}
+	</div>
+</root>
+
+@code
+{
+	bool isOpen = false;
+	List<Career> Careers = CareerManager.Careers;
+
+	[GameEvent.Client.BuildInput]
+	void ProcessInput()
+	{
+		if (Input.Pressed("Menu"))
+		{
+			Toggle();
+		}
+	}
+
+	void Toggle()
+	{
+		isOpen = !isOpen;
+	}
+
+	void onCareerSelected(int careerId, IClient client)
+	{
+		CareerManager.AddPlayerToCareer(careerId, client);
+	}
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine(isOpen, CareerManager.Careers);
+	}
+
+}

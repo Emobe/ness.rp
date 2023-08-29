@@ -1,20 +1,16 @@
-.admin-wrap {
+.career-wrap {
     justify-content: center;
     align-items: center;
     pointer-events: none;
     opacity: 0;
 }
 
-.admin-modal {
+.career-modal {
     width: 75%;
     height: 75%;
     background-color: grey;
     display: flex;
     justify-content: space-evenly;
-}
-
-.selected{
-    color: white;
 }
 
 .open {

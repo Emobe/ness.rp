@@ -18,24 +18,24 @@ namespace MyGame;
 public partial class MyGame : Sandbox.GameManager
 {
 
-	Admin adminInstance;
-	AdminMenu adminMenu;
+	CareerManager cm = new CareerManager();
 	/// <summary>
 	/// Called when the game is created (on both the server and client)
 	/// </summary>
 	public MyGame()
 	{
+		Hud _hud ;
 		if ( Game.IsClient )
 		{
-			adminMenu = new AdminMenu();
-			Game.RootPanel = new Hud();
+			//adminMenu = new AdminMenu();
+			_hud = new Hud();
 		}
-			adminInstance = new Admin();
 		//if(PrefabLibrary.TrySpawn<Entity>("God.prefab", out var e) )
 		//{
 			//e.Position = Game.LocalClient.Position;
 			//Log.Info( "spawned" );
 		//}
+		LoadCareers();
 	}
 
 	/// <summary>
@@ -65,6 +65,12 @@ public partial class MyGame : Sandbox.GameManager
 			pawn.Transform = tx;
 		}
 
+	}
+
+	void LoadCareers()
+	{
+		cm.createCareer( "Citizen", 100 );
+		cm.createCareer( "Thug", 10 );
 	}
 }
 

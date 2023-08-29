@@ -5,6 +5,10 @@ namespace MyGame;
 
 public partial class Pawn : AnimatedEntity
 {
+	public Career Career;
+
+	public bool Arrested = false;
+
 	[Net, Predicted]
 	public Weapon ActiveWeapon { get; set; }
 
@@ -60,16 +64,6 @@ public partial class Pawn : AnimatedEntity
 
 	public override Ray AimRay => new Ray( EyePosition, EyeRotation.Forward );
 
-	public enum Career {
-		Citizen,
-		Homeless,
-		ArmsDealer,
-		Thief,
-		MobBoss
-	}
-
-	public Career CurrentCareer { get; set; }
-
 
 	/// <summary>
 	/// Called when the entity is first created 
@@ -81,7 +75,6 @@ public partial class Pawn : AnimatedEntity
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
-		CurrentCareer = Career.Citizen;
 	}
 
 	public void SetActiveWeapon( Weapon weapon )
